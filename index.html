@@ -309,26 +309,26 @@ nav.show{opacity:1;transform:translateY(0);}
 .eamt{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--accent);font-style:italic;font-weight:300;margin:8px 0;}
 
 /* UPGRADE / PRICING */
-.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:640px;}
-.pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;flex-direction:column;position:relative;transition:transform 0.2s,box-shadow 0.2s;}
-.pricing-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.08);}
-.pricing-card.featured{border:2px solid var(--accent);}
-.pricing-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 14px;border-radius:20px;white-space:nowrap;}
-.pricing-name{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
-.pricing-price{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:600;color:var(--accent);margin-bottom:1.25rem;letter-spacing:-0.03em;}
-.pricing-period{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:400;color:var(--ink3);}
-.pricing-features{list-style:none;padding:0;margin:0 0 1.5rem;flex:1;}
-.pricing-features li{font-size:12px;color:var(--ink2);padding:6px 0;border-bottom:1px solid var(--border);}
-.pricing-features li::before{content:'✓ ';color:var(--accent2);font-weight:600;}
-.pricing-btn{font-family:'DM Mono',monospace;font-size:13px;width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;transition:all 0.2s;}
-.pricing-btn:hover{background:var(--bg);border-color:var(--ink3);}
-.pricing-btn.featured{background:var(--accent);color:#fff;border-color:var(--accent);}
-.pricing-btn.featured:hover{opacity:0.9;}
+.upgrade-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:640px;}
+.upgrade-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;flex-direction:column;position:relative;transition:transform 0.2s,box-shadow 0.2s;}
+.upgrade-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.08);}
+.upgrade-card.featured{border:2px solid var(--accent);}
+.upgrade-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 14px;border-radius:20px;white-space:nowrap;}
+.upgrade-name{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.upgrade-price{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:600;color:var(--accent);margin-bottom:1.25rem;letter-spacing:-0.03em;}
+.upgrade-period{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:400;color:var(--ink3);}
+.upgrade-features{list-style:none;padding:0;margin:0 0 1.5rem;flex:1;}
+.upgrade-features li{font-size:12px;color:var(--ink2);padding:6px 0;border-bottom:1px solid var(--border);}
+.upgrade-features li::before{content:'✓ ';color:var(--accent2);font-weight:600;}
+.upgrade-btn{font-family:'DM Mono',monospace;font-size:13px;width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;transition:all 0.2s;}
+.upgrade-btn:hover{background:var(--bg);border-color:var(--ink3);}
+.upgrade-btn.featured{background:var(--accent);color:#fff;border-color:var(--accent);}
+.upgrade-btn.featured:hover{opacity:0.9;}
 
 @media(max-width:640px){
   nav{padding:1rem 1.25rem;}
   .landing-hero,.section,.app-wrap,.counter-band,.cta-band{padding-left:1.25rem;padding-right:1.25rem;}
-  .steps,.pricing-grid,.testi-grid{grid-template-columns:1fr;}
+  .steps,.pricing-grid,.testi-grid,.upgrade-grid{grid-template-columns:1fr;}
   .stats-bar{grid-template-columns:repeat(2,1fr);}
   .form-grid{grid-template-columns:1fr;}
   .counter-grid{grid-template-columns:1fr;gap:1.5rem;}
@@ -576,24 +576,24 @@ nav.show{opacity:1;transform:translateY(0);}
         <div class="stitle" style="margin-bottom:.25rem">Upgrade your plan</div>
         <p style="color:var(--ink2);font-size:12px;margin-bottom:1.5rem">Unlock premium features to get more out of SubScan.</p>
       </div>
-      <div class="pricing-grid">
-        <div class="pricing-card">
-          <div class="pricing-name">Pro</div>
-          <div class="pricing-price">$9<span class="pricing-period">/mo</span></div>
-          <ul class="pricing-features">
+      <div class="upgrade-grid">
+        <div class="upgrade-card">
+          <div class="upgrade-name">Pro</div>
+          <div class="upgrade-price">$9<span class="upgrade-period">/mo</span></div>
+          <ul class="upgrade-features">
             <li>Unlimited subscriptions</li>
             <li>Advanced analytics</li>
             <li>Email reminders</li>
             <li>CSV export</li>
             <li>Priority support</li>
           </ul>
-          <button class="pricing-btn" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5kafm38qb2cs6hzc5m9tvs',quantity:1}]})">Get Pro</button>
+          <button class="upgrade-btn" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5kafm38qb2cs6hzc5m9tvs',quantity:1}]})">Get Pro</button>
         </div>
-        <div class="pricing-card featured">
-          <div class="pricing-badge">Most Popular</div>
-          <div class="pricing-name">Business</div>
-          <div class="pricing-price">$29<span class="pricing-period">/mo</span></div>
-          <ul class="pricing-features">
+        <div class="upgrade-card featured">
+          <div class="upgrade-badge">Most Popular</div>
+          <div class="upgrade-name">Business</div>
+          <div class="upgrade-price">$29<span class="upgrade-period">/mo</span></div>
+          <ul class="upgrade-features">
             <li>Everything in Pro</li>
             <li>Team sharing (up to 10)</li>
             <li>Custom budget rules</li>
@@ -601,7 +601,7 @@ nav.show{opacity:1;transform:translateY(0);}
             <li>Dedicated account manager</li>
             <li>SSO & audit logs</li>
           </ul>
-          <button class="pricing-btn featured" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5k9bgn3vbnns98fajwssyz',quantity:1}]})">Get Business</button>
+          <button class="upgrade-btn featured" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5k9bgn3vbnns98fajwssyz',quantity:1}]})">Get Business</button>
         </div>
       </div>
     </div>
