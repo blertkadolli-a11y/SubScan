@@ -325,6 +325,27 @@ nav.show{opacity:1;transform:translateY(0);}
 .upgrade-btn.featured{background:var(--accent);color:#fff;border-color:var(--accent);}
 .upgrade-btn.featured:hover{opacity:0.9;}
 
+/* TRIAL BANNER */
+.trial-banner{background:var(--accent);color:#fff;font-size:12px;text-align:center;padding:10px 1.5rem;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;}
+.trial-banner-btn{font-family:'DM Mono',monospace;font-size:11px;background:rgba(255,255,255,0.2);color:#fff;border:1px solid rgba(255,255,255,0.35);border-radius:6px;padding:4px 14px;cursor:pointer;transition:background 0.2s;}
+.trial-banner-btn:hover{background:rgba(255,255,255,0.35);}
+
+/* TRIAL MODAL */
+.trial-modal{position:fixed;inset:0;z-index:10000;background:rgba(10,9,7,0.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:2rem;}
+.trial-modal-box{background:#1A1814;border:1px solid rgba(240,237,230,0.1);border-radius:18px;padding:3rem 2.5rem;text-align:center;max-width:440px;width:100%;}
+.trial-logo{font-family:'Fraunces',serif;font-size:1.6rem;font-weight:600;color:#F0EDE6;margin-bottom:1.5rem;}
+.trial-logo em{font-style:italic;font-weight:300;}
+.trial-heading{font-family:'Fraunces',serif;font-size:1.35rem;font-weight:600;color:#F0EDE6;margin-bottom:.5rem;}
+.trial-sub{font-size:12px;color:#A8A59E;margin-bottom:2rem;line-height:1.6;}
+.trial-btns{display:flex;gap:12px;}
+.trial-plan-btn{flex:1;font-family:'DM Mono',monospace;background:#242019;border:1px solid rgba(240,237,230,0.1);border-radius:10px;padding:1.25rem 1rem;cursor:pointer;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.trial-plan-btn:hover{border-color:rgba(240,237,230,0.25);transform:translateY(-2px);}
+.trial-plan-btn.featured{background:var(--accent);border-color:var(--accent);}
+.trial-plan-btn.featured:hover{opacity:0.9;}
+.trial-plan-name{font-size:14px;font-weight:500;color:#F0EDE6;}
+.trial-plan-price{font-family:'Fraunces',serif;font-size:1.1rem;color:#A8A59E;}
+.trial-plan-btn.featured .trial-plan-price{color:rgba(255,255,255,0.8);}
+
 @media(max-width:640px){
   nav{padding:1rem 1.25rem;}
   .landing-hero,.section,.app-wrap,.counter-band,.cta-band{padding-left:1.25rem;padding-right:1.25rem;}
@@ -462,6 +483,27 @@ nav.show{opacity:1;transform:translateY(0);}
 
 <!-- APP -->
 <div class="page" id="page-app">
+  <div class="trial-banner" id="trial-banner" style="display:none">
+    <span id="trial-banner-text"></span>
+    <button class="trial-banner-btn" onclick="switchTab('upgrade',document.querySelector('.app-tab:last-child'))">Upgrade now</button>
+  </div>
+  <div class="trial-modal" id="trial-modal" style="display:none">
+    <div class="trial-modal-box">
+      <div class="trial-logo">Sub<em>Scan</em></div>
+      <h2 class="trial-heading">Your free trial has ended</h2>
+      <p class="trial-sub">Upgrade to Pro to keep access to all your subscriptions.</p>
+      <div class="trial-btns">
+        <button class="trial-plan-btn" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5kafm38qb2cs6hzc5m9tvs',quantity:1}]})">
+          <span class="trial-plan-name">Pro</span>
+          <span class="trial-plan-price">$9/mo</span>
+        </button>
+        <button class="trial-plan-btn featured" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5k9bgn3vbnns98fajwssyz',quantity:1}]})">
+          <span class="trial-plan-name">Business</span>
+          <span class="trial-plan-price">$29/mo</span>
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="app-wrap">
     <div class="stats-bar">
       <div class="stat"><span class="stat-num" id="s-total">$0</span><div class="stat-label">Monthly spend</div></div>
@@ -633,6 +675,34 @@ function toggleTheme(){
 }
 (()=>{const s=localStorage.getItem('theme');if(s)document.documentElement.setAttribute('data-theme',s);})();
 
+/* ── TRIAL ── */
+const TRIAL_DAYS=7;
+let isPaidUser=false;
+
+function getTrialDaysLeft(){
+  if(!currentUser||!currentUser.created_at)return TRIAL_DAYS;
+  const created=new Date(currentUser.created_at);
+  const now=new Date();
+  const elapsed=Math.floor((now-created)/(1000*60*60*24));
+  return Math.max(0,TRIAL_DAYS-elapsed);
+}
+
+function checkTrial(){
+  const banner=document.getElementById('trial-banner');
+  const modal=document.getElementById('trial-modal');
+  const bannerText=document.getElementById('trial-banner-text');
+  if(!currentUser||isPaidUser){banner.style.display='none';modal.style.display='none';return;}
+  const left=getTrialDaysLeft();
+  if(left<=0){
+    banner.style.display='none';
+    modal.style.display='flex';
+  }else{
+    modal.style.display='none';
+    banner.style.display='flex';
+    bannerText.textContent=`You have ${left} day${left===1?'':'s'} left in your free trial —`;
+  }
+}
+
 /* ── INTRO ── */
 window.addEventListener('load',()=>{
   setTimeout(()=>{
@@ -799,6 +869,7 @@ function goPage(p){
     if(p==='landing'||p==='pricing'){initReveal();if(p==='landing'){initTicker();initCounters();}}
     if(p==='app'){
       if(!currentUser){requireAuth(()=>goPage('app'));return;}
+      checkTrial();
       loadAllData();
     }
     renderPricing();
