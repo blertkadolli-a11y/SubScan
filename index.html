@@ -6,6 +6,7 @@
 <title>SubScan — Stop Paying for Things You Don't Use</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -307,6 +308,23 @@ nav.show{opacity:1;transform:translateY(0);}
 .ebody{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);font-size:13px;color:var(--ink2);line-height:1.9;}
 .eamt{font-family:'Fraunces',serif;font-size:1.6rem;color:var(--accent);font-style:italic;font-weight:300;margin:8px 0;}
 
+/* UPGRADE / PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;max-width:640px;}
+.pricing-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;display:flex;flex-direction:column;position:relative;transition:transform 0.2s,box-shadow 0.2s;}
+.pricing-card:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.08);}
+.pricing-card.featured{border:2px solid var(--accent);}
+.pricing-badge{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:10px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 14px;border-radius:20px;white-space:nowrap;}
+.pricing-name{font-family:'Fraunces',serif;font-size:1.25rem;font-weight:600;color:var(--ink);margin-bottom:4px;}
+.pricing-price{font-family:'Fraunces',serif;font-size:2.4rem;font-weight:600;color:var(--accent);margin-bottom:1.25rem;letter-spacing:-0.03em;}
+.pricing-period{font-family:'DM Mono',monospace;font-size:.85rem;font-weight:400;color:var(--ink3);}
+.pricing-features{list-style:none;padding:0;margin:0 0 1.5rem;flex:1;}
+.pricing-features li{font-size:12px;color:var(--ink2);padding:6px 0;border-bottom:1px solid var(--border);}
+.pricing-features li::before{content:'✓ ';color:var(--accent2);font-weight:600;}
+.pricing-btn{font-family:'DM Mono',monospace;font-size:13px;width:100%;padding:12px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer;transition:all 0.2s;}
+.pricing-btn:hover{background:var(--bg);border-color:var(--ink3);}
+.pricing-btn.featured{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pricing-btn.featured:hover{opacity:0.9;}
+
 @media(max-width:640px){
   nav{padding:1rem 1.25rem;}
   .landing-hero,.section,.app-wrap,.counter-band,.cta-band{padding-left:1.25rem;padding-right:1.25rem;}
@@ -457,6 +475,7 @@ nav.show{opacity:1;transform:translateY(0);}
       <button class="app-tab" onclick="switchTab('budgets',this)">Budgets</button>
       <button class="app-tab" onclick="switchTab('upload',this)">Upload</button>
       <button class="app-tab" onclick="switchTab('reminders',this)">Reminders</button>
+      <button class="app-tab" onclick="switchTab('upgrade',this)">Upgrade</button>
     </div>
 
     <!-- TRACKER -->
@@ -550,6 +569,42 @@ nav.show{opacity:1;transform:translateY(0);}
         <div class="email-mock" id="email-mock"></div>
       </div>
     </div>
+
+    <!-- UPGRADE -->
+    <div class="tab-pane" id="tab-upgrade">
+      <div class="upgrade-header">
+        <div class="stitle" style="margin-bottom:.25rem">Upgrade your plan</div>
+        <p style="color:var(--ink2);font-size:12px;margin-bottom:1.5rem">Unlock premium features to get more out of SubScan.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <div class="pricing-name">Pro</div>
+          <div class="pricing-price">$9<span class="pricing-period">/mo</span></div>
+          <ul class="pricing-features">
+            <li>Unlimited subscriptions</li>
+            <li>Advanced analytics</li>
+            <li>Email reminders</li>
+            <li>CSV export</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="pricing-btn" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5kafm38qb2cs6hzc5m9tvs',quantity:1}]})">Get Pro</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-badge">Most Popular</div>
+          <div class="pricing-name">Business</div>
+          <div class="pricing-price">$29<span class="pricing-period">/mo</span></div>
+          <ul class="pricing-features">
+            <li>Everything in Pro</li>
+            <li>Team sharing (up to 10)</li>
+            <li>Custom budget rules</li>
+            <li>API access</li>
+            <li>Dedicated account manager</li>
+            <li>SSO & audit logs</li>
+          </ul>
+          <button class="pricing-btn featured" onclick="Paddle.Checkout.open({items:[{priceId:'pri_01km5k9bgn3vbnns98fajwssyz',quantity:1}]})">Get Business</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -558,6 +613,8 @@ nav.show{opacity:1;transform:translateY(0);}
 const SUPA_URL='https://muqinbrurfiqwbhqswgi.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11cWluYnJ1cmZpcXdiaHFzd2dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM1MjIwODQsImV4cCI6MjA4OTA5ODA4NH0.OBhFxAL64ormVdHiMcl03Jjq5Y7ZBxcImxlpi2K6i4c';
 const sb=supabase.createClient(SUPA_URL,SUPA_KEY);
+
+Paddle.Initialize({ token: 'live_32eb79e7e42270ffa56531aedaf' });
 
 const ICONS={streaming:'🎬',software:'💻',fitness:'💪',news:'📰',shopping:'🛍️',other:'📦'};
 const BGCOLS={streaming:'#FFF0E6',software:'#E6F0FF',fitness:'#E6FFE6',news:'#FFF8E6',shopping:'#F0E6FF',other:'#F5F5F5'};
