@@ -769,6 +769,7 @@ sb.auth.onAuthStateChange((event,session)=>{
     updateNavAuth();
     closeAuth();
     if(authCallback){authCallback();authCallback=null;}
+    else{goPage('app');}
   }
   if(event==='SIGNED_OUT'){currentUser=null;updateNavAuth();}
 });
@@ -778,7 +779,7 @@ function updateNavAuth(){
   if(currentUser){
     const email=currentUser.email||'';
     const initials=email.slice(0,2).toUpperCase();
-    area.innerHTML=`<div class="user-pill"><div class="user-avatar">${initials}</div>${email.split('@')[0]}</div><button class="nav-btn" onclick="signOut()">Sign out</button>`;
+    area.innerHTML=`<div class="user-pill"><div class="user-avatar">${initials}</div>${email.split('@')[0]}</div><button class="nav-btn primary" onclick="goPage('app')">Open App →</button><button class="nav-btn" onclick="signOut()">Sign out</button>`;
   } else {
     area.innerHTML=`<button class="nav-btn outline" onclick="openAuth()">Sign in</button><button class="nav-btn primary" onclick="openAuthThenApp()">Open App →</button>`;
   }
@@ -903,7 +904,7 @@ function initCounters(){
 
 /* ── PRICING ── */
 function pricingCards(fn){
-  return`<div class="price-card reveal r1"><div class="price-plan">Free</div><div class="price-amt"><sup>$</sup>0</div><div class="price-per">forever</div><ul class="price-features"><li>Up to 10 subscriptions</li><li>Manual entry</li><li>Basic stats</li><li class="off">Bank upload</li><li class="off">Email reminders</li><li class="off">Budget alerts</li></ul><button class="btn-plan" onclick="${fn}">Get started free</button></div>
+  return`<div class="price-card reveal r1"><div class="price-plan">Free Trial</div><div class="price-amt" style="font-size:1.4rem">Free for 7 days</div><div class="price-per">7-day free trial</div><ul class="price-features"><li>Unlimited subscriptions</li><li>Bank statement upload</li><li>Spending charts</li><li>Budget alerts</li><li>Email reminders</li><li class="off">Team accounts</li></ul><button class="btn-plan" onclick="${fn}">Start free trial</button></div>
   <div class="price-card feat reveal r2"><div class="price-badge">Most popular</div><div class="price-plan">Pro</div><div class="price-amt"><sup>$</sup>9</div><div class="price-per">per month</div><ul class="price-features"><li>Unlimited subscriptions</li><li>Bank statement upload</li><li>Spending charts</li><li>Budget alerts</li><li>Email reminders</li><li class="off">Team accounts</li></ul><button class="btn-plan feat" onclick="${fn}">Start free trial →</button></div>
   <div class="price-card reveal r3"><div class="price-plan">Business</div><div class="price-amt"><sup>$</sup>29</div><div class="price-per">per month</div><ul class="price-features"><li>Everything in Pro</li><li>Up to 5 team members</li><li>Shared tracking</li><li>Monthly reports</li><li>Priority support</li><li>Custom reminders</li></ul><button class="btn-plan" onclick="${fn}">Contact sales</button></div>`;
 }
